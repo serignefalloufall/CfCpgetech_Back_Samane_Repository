@@ -86,7 +86,7 @@ class DepartementController extends Controller{
           header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
           $data = json_decode(file_get_contents("php://input"));
-          extract($_POST);
+          //extract($_POST);
 
         $tdb = new DepartementRepository();
         
@@ -94,16 +94,16 @@ class DepartementController extends Controller{
                // die;
                 $departementObject = new Departement();
                 
-                $departementObject->setNom($_POST['nom']);
+                $departementObject->setNom($data->nom);
 
                 $ok = $tdb->addDepartement($departementObject);
                 if($ok != null)
                      {
-                         echo "departement added successfully";
+                         echo json_encode("departement added successfully");
 
                      }else{
 
-                        echo "Erreur";
+                        echo json_encode("Erreur");
 
                      }
     }
