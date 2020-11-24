@@ -8,16 +8,16 @@ POUR TOUTE MODIFICATION VISANT A L'AMELIORER.
 VOUS ETES LIBRE DE TOUTE UTILISATION.
 ===================================================*/ 
 use libs\system\Controller; 
-use src\model\DepartementRepository;
+use src\model\CandidatureRepository;
 
-class DepartementController extends Controller{
+class CandidatureController extends Controller{
     public function __construct(){
         parent::__construct();
     }
    
     /** 
      * url pattern for this method
-     * localhost/projectName/Departement/liste
+     * localhost/projectName/Candidature/liste
      */
     public function liste(){
 
@@ -26,17 +26,17 @@ class DepartementController extends Controller{
          //pour indiquer qui p acceder a ces resources
          header('Access-Control-Allow-Origin: *');
 
-        $tdb = new DepartementRepository();
+        $tdb = new CandidatureRepository();
         
-        $departements = $tdb->listeDepartement();
+        $candidatures = $tdb->listeCandidature();
 
-        foreach($departements as $departement)
+        foreach($candidatures as $candidature)
                                 {
-                                    $departement = [
-                                        "id" => $departement->getId(),
-                                        "nom" => $departement->getNom(),
+                                    $candidature = [
+                                        "id" => $candidature->getId(),
+                                        "nom" => $candidature->getNom(),
                                     ];
-                                    $data['myDepartementliste'][] = $departement;
+                                    $data['myCandidatureliste'][] = $candidature;
                                 }
         http_response_code(200);
         echo json_encode($data);
@@ -44,7 +44,7 @@ class DepartementController extends Controller{
 
      /** 
      * url pattern for this method
-     * localhost/projectName/Departement/add
+     * localhost/projectName/Candidature/add
      */
     public function add(){
 
@@ -57,16 +57,20 @@ class DepartementController extends Controller{
 
           $data = json_decode(file_get_contents("php://input"));
 
-        $tdb = new DepartementRepository();
+        $tdb = new CandidatureRepository();
         
-                $departementObject = new Departement();
+                $candidatureObject = new Candidature();
                 
-                $departementObject->setNom($data->nom);
+                $candidatureObject->setNom($data->nom);
+                $candidatureObject->setPrenom($data->prenom);
+                $candidatureObject->setAdresse($data->adresse);
+                $candidatureObject->setTelephone($data->telephone);
+                $candidatureObject->setEmail($data->email);
 
-                $ok = $tdb->addDepartement($departementObject);
+                $ok = $tdb->addCandidature($candidatureObject);
                 if($ok != null)
                      {
-                         echo json_encode("departement added successfully");
+                         echo json_encode("Candidature added successfully");
 
                      }else{
 

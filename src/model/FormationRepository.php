@@ -53,21 +53,7 @@ class FormationRepository extends Model{
 		}
 	}
 	
-	public function updateFormation($formation){
-		if($this->db != null)
-		{
-			$getFormation = $this->db->find('Formation', $formation->getId());
-			if($getFormation != null)
-			{
-				$getFormation->setValeur1($formation->getValeur1());
-				$getFormation->setValeur2($formation->getValeur2());
-				$this->db->flush();
-
-			}else {
-				die("Objet ".$formation->getId()." does not existe!!");
-			}	
-		}
-	}
+	
 	
 	public function listeFormation(){
 		if($this->db != null)
@@ -99,5 +85,20 @@ class FormationRepository extends Model{
 			return $this->db->getRepository('Formation')->findAll();
 		}
 	}
+
+
+
+	public function getFormationByDepartementId($id)
+    {
+        if($this->db != null)
+		{
+			return $this->db->createQuery("SELECT f.nom FROM Formation f WHERE f.departement_id = " . $id)->getSingleResult();   
+    }
+
+
+
+
+
+
 	
 }
